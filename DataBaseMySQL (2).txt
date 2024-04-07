@@ -1,0 +1,126 @@
+CREATE DATABASE DataBaseProject;
+USE DataBaseProject;
+
+-- Travel Tickets Table
+CREATE TABLE TravelTickets (
+    SerialNumber INT PRIMARY KEY,
+    StartTime DATETIME,
+    EndTime DATETIME,
+    FromLocation VARCHAR(255),
+    ToLocation VARCHAR(255),
+    Price real,
+    Class VARCHAR(50),
+    SeatNumber VARCHAR(50),
+    Gate VARCHAR(50),
+    Airport VARCHAR(255)
+);
+
+-- Insert sample data into TravelTickets table
+INSERT INTO TravelTickets (SerialNumber, StartTime, EndTime, FromLocation, ToLocation, Price, Class, SeatNumber, Gate, Airport) VALUES
+('156', '2024-02-01 08:00:00', '2024-02-01 12:00:00', 'New York', 'London', 500.00, 'Economy', '12A', 'G1', 'JFK'),
+('168', '2024-02-02 09:30:00', '2024-02-02 15:30:00', 'Tokyo', 'San Francisco', 750.00, 'Business', '5B', 'H2', 'NRT'),
+('245', '2024-02-03 22:00:00', '2024-02-04 03:00:00', 'Sydney', 'Auckland', 300.00, 'Economy', '18C', 'J3', 'SYD'),
+('842','2024-02-05 17:45:00', '2024-02-05 21:45:00', 'Paris', 'Rome', 400.00, 'Economy', '20D', 'K4', 'CDG'),
+('646','2024-02-06 06:15:00', '2024-02-06 09:15:00', 'Dubai', 'Istanbul', 550.00, 'First Class', '2A', 'L5', 'DXB');
+
+-- Check the inserted data
+SELECT * FROM TravelTickets;
+
+
+-- Hotel Rooms Table
+CREATE TABLE HotelRooms (
+    SerialNumber INT PRIMARY KEY,
+    RoomNumber INT,
+    View VARCHAR(255),
+    Type VARCHAR(255),
+    Price real,
+    City VARCHAR(255),
+    Country VARCHAR(255),
+    HotelName VARCHAR(255)
+);
+
+INSERT INTO HotelRooms (SerialNumber, RoomNumber, View, Type, Price, City, Country, HotelName)
+VALUES
+    (1, 101, 'Ocean View', 'Deluxe', 250.00, 'Miami', 'USA', 'Luxury Beach Resort'),
+    (2, 102, 'City View', 'Standard', 150.00, 'New York', 'USA', 'Downtown Hotel'),
+    (3, 201, 'Mountain View', 'Suite', 350.00, 'Aspen', 'USA', 'Aspen Lodge'),
+    (4, 202, 'Lake View', 'Deluxe', 275.00, 'Chicago', 'USA', 'Windy City Inn'),
+    (5, 301, 'Ocean View', 'Suite', 400.00, 'Los Angeles', 'USA', 'L.A. Luxury Suites'),
+    (6, 302, 'City View', 'Standard', 160.00, 'San Francisco', 'USA', 'Bayfront Hotel');
+    
+
+
+SELECT * FROM HotelRooms;
+
+-- Customers Table
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    PhoneNumber VARCHAR(20),
+    Gender VARCHAR(10),
+    Age INT,
+    Address VARCHAR(255),
+    Email VARCHAR(255),
+    PaymentMethod VARCHAR(255)
+);
+
+ALTER TABLE Customers
+ADD COLUMN customerName VARCHAR(255) AFTER CustomerID;
+
+
+SELECT * FROM Customers;
+
+
+-- Reservations Table
+CREATE TABLE Reservations (
+    ReservationID INT PRIMARY KEY,
+    TypeOfReservation varchar(255),
+    RoomID INT NULL,
+    CustomerID INT,
+    TicketID INT NULL,
+    Date DATE,
+    PaymentAmount real,
+    PaymentRemaining real,
+    FOREIGN KEY (RoomID) REFERENCES HotelRooms(SerialNumber),
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
+    FOREIGN KEY (TicketID) REFERENCES TravelTickets(SerialNumber)
+);
+
+SELECT * FROM Reservations;
+SELECT * FROM Employee;
+
+
+-- Employee Table
+CREATE TABLE Employee (
+    EmployeeID INT PRIMARY KEY,
+    EmployeeName varchar(255),
+    PhoneNumber VARCHAR(20),
+    Age INT,
+    Gender VARCHAR(10),
+    Salary real,
+    Address VARCHAR(255),
+    Email VARCHAR(255),
+    MaritalStatus varchar(255),
+    Children INT,
+    EType varchar(255)
+);
+INSERT INTO Employee (EmployeeID, EmployeeName, PhoneNumber, Age, Gender, Salary, Address, Email, MaritalStatus, Children, EType) VALUES
+(1, 'John Doe', '123-456-7890', 30, 'Male', 50000.00, '1234 Main St', 'john.doe@example.com', 'Married', 2, 'Reception'),
+(2, 'Jane Smith', '234-567-8901', 28, 'Female', 45000.00, '5678 Park Ave', 'jane.smith@example.com', 'Single', 0, 'Reception'),
+(3, 'Alice Johnson', '345-678-9012', 35, 'Female', 52000.00, '9101 Oak Dr', 'alice.johnson@example.com', 'Married', 1, 'Accountant'),
+(4, 'Bob Williams', '456-789-0123', 40, 'Male', 55000.00, '1122 Maple Ln', 'bob.williams@example.com', 'Married', 3, 'Cleaner'),
+(5, 'Carol Taylor', '567-890-1234', 25, 'Female', 48000.00, '7890 Pine Rd', 'carol.taylor@example.com', 'Single', 0, 'Reception'),
+(6, 'David Brown', '678-901-2345', 45, 'Male', 60000.00, '3456 Birch St', 'david.brown@example.com', 'Married', 2, 'Reception');
+
+
+
+-- Login Table
+CREATE TABLE Login (
+    Username VARCHAR(255) PRIMARY KEY,
+    Password VARCHAR(255),
+    IsAdmin int
+);
+
+
+
+SELECT * FROM Login;
+
